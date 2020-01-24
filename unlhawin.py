@@ -9,7 +9,10 @@ a = lhafile.LhaFile(inf)
 for info in a.infolist():
     name = b''.join([struct.pack('B', ord(i)) for i in info.filename])
     name = name.decode('shift_jis')
-    sep = name.split('\\')
+    if '\\' in name:
+        sep = name.split('\\')
+    if '/' in name:
+        sep = name.split('/')
     if len(sep) > 1:
         d = pathlib.Path(*sep[:-1])
         d.mkdir(parents=True, exist_ok=True)
